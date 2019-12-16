@@ -1,5 +1,8 @@
 package com.example.study_mvp;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,12 +31,7 @@ public class MainActivity extends AppCompatActivity implements IGirlView {
     private void initviewanddata() {
         listView=findViewById(R.id.list_view);
         new GirlPresenter(this).fetch();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "position", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
 
     @Override
@@ -42,7 +40,16 @@ public class MainActivity extends AppCompatActivity implements IGirlView {
     }
 
     @Override
-    public void showGirls(List<Girl> girls) {
+    public void showGirls(final List<Girl> girls) {
         listView.setAdapter(new GirlAdapter(this,girls));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Girl girl=girls.get(position);
+                Uri uri=Uri.parse(girl.getUrl());
+                Intent i=new Intent(Intent.ACTION_VIEW,uri);
+                startActivity(i);
+            }
+        });
     }
 }

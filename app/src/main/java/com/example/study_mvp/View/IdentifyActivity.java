@@ -79,7 +79,6 @@ public class IdentifyActivity extends AppCompatActivity implements MyIdentifyVie
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
         Date curDate = new Date(System.currentTimeMillis());
         str = format.format(curDate);
-        //创建一个新的文件夹
         File outputImage = new File(getExternalCacheDir(), str+".jpg");
         try {
             if (outputImage.exists()) {
@@ -117,36 +116,26 @@ public class IdentifyActivity extends AppCompatActivity implements MyIdentifyVie
                     Toast.makeText(this, "没有选中内容！", Toast.LENGTH_SHORT).show();
                     return;
                 }else{
-                    //相册
-                    //通过获取当前应用的contentResolver对象来查询返回的data数据
                     Cursor cursor=this.getContentResolver().query(data.getData(),null,null,null,null);
-                    //将cursor指针移动到数据首行
                     cursor.moveToFirst();
-                    //获取字段名为_data的数据
                     imagePath=cursor.getString(cursor.getColumnIndex("_data"));
-                    //销毁cursor对象，释放资源
                     cursor.close();
                     Toast.makeText(this,"图片获取成功",Toast.LENGTH_SHORT).show();
-                    //将图片路径所得图片类型转换成bitmap
                     bitmap= BitmapFactory.decodeFile(imagePath);
                 }
             }else  if (resultCode==RESULT_OK){
-                //拍照
                 try {
                     Toast.makeText(this,"图片获取成功",Toast.LENGTH_SHORT).show();
-                    // 获取相机返回的数据，并转换为Bitmap图片格式
                     bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(ImageUri));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
             }
-            //显示图片
             img.setImageBitmap(bitmap);
         }
     }
     @Override
     public Bitmap getImage() {
-
         return bitmap;
     }
 
