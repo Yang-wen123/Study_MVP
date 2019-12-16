@@ -13,6 +13,7 @@ public class VocabularyImpl implements VocabularyModel {
         data.add(new Vocabulary("动词","跑","pao","跑步这种动作"));
         data.add(new Vocabulary("形容词","帅","shuai","形容一个人外貌好看"));
         data.add(new Vocabulary("副词","慢慢地","man man de","多用于修饰"));
+
         listener.onComplete(data);
     }
 }
