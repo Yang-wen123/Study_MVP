@@ -15,12 +15,14 @@ import com.example.study_mvp.Adapter.GirlAdapter;
 import com.example.study_mvp.Bean.Girl;
 import com.example.study_mvp.Presenter.GirlPresenter;
 import com.example.study_mvp.View.IGirlView;
+import com.example.study_mvp.utils.ToastUtils;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements IGirlView {
     private static final String TAG = "";
     private ListView listView;
+    private ToastUtils toastUtils=new ToastUtils(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements IGirlView {
 
     @Override
     public void showLoading() {
-        Toast.makeText(this, "正在加载中...", Toast.LENGTH_SHORT).show();
+        toastUtils.shorttoast("正在加载中...");
+        //Toast.makeText(this, "正在加载中...", Toast.LENGTH_SHORT).show();
     }
 
     @Override

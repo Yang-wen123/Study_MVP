@@ -2,6 +2,7 @@ package com.example.study_mvp.View;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -12,8 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +21,7 @@ import androidx.core.content.FileProvider;
 import com.example.study_mvp.Bean.MyPicture;
 import com.example.study_mvp.Presenter.IdentifyPresenter;
 import com.example.study_mvp.R;
+import com.example.study_mvp.utils.StaticConstant;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -140,11 +140,19 @@ public class IdentifyActivity extends AppCompatActivity implements MyIdentifyVie
     }
 
     @Override
-    public void setMsg(MyPicture myPicture) {
+    public void setMsg(final MyPicture myPicture) {
         if (myPicture != null) {
-            String[] mitems1 = {"名称1：" + myPicture.getName(), "可能性：" + myPicture.getScore(),"百科链接：" +myPicture.getBaikeurl(),"图片链接：" +myPicture.getImageurl(),"介绍：" + myPicture.getDescription()};
+            final String[] mitems1 = {"名称1：" + myPicture.getName(), "可能性：" + myPicture.getScore(),"百科链接：" +myPicture.getBaikeurl(),"图片链接：" +myPicture.getImageurl(),"介绍：" + myPicture.getDescription()};
             android.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(IdentifyActivity.this);
-            alertDialog.setTitle("识别结果").setItems(mitems1, null).create().show();
+            alertDialog.setTitle("识别结果").setItems(mitems1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(mitems1[which].equals("百科链接：" +myPicture.getBaikeurl())){
+                        StaticConstant.url=myPicture.getBaikeurl();
+                        startActivity(new Intent(IdentifyActivity.this,WebActivity.class));
+                    }
+                }
+            }).create().show();
         } else {
             android.app.AlertDialog.Builder alertDialog1 = new AlertDialog.Builder(IdentifyActivity.this);
             alertDialog1.setTitle("识别结果").setMessage("无法识别").create().show();
